@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Earned Benefits">
+<meta property="og:description" content="Plain-language guides to VA, military and federal benefits: claims, health gear, perks, jobs and more.">
+<meta name="description" content="Plain-language guides to VA, military and federal benefits.">
+<title>Earned Benefits</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Earned Benefits">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b1426">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap">
+<style>
+/* Layout: single-column phone app. Start tab (progress checklist + shortcuts), Guides tab (search, chips, article list + detail), Contacts tab. Fixed bottom tab bar. Dark-first navy, signal-blue accent. */
+:root {
+  --bg: #0b1426;
+  --surface: #131f38;
+  --surface-2: #1a2a4a;
+  --line: #27406a;
+  --fg: #eaf0fb;
+  --muted: #a3b3d1;
+  --accent: #6db3ff;
+  --accent-ink: #06142b;
+  --good: #4ad2a0;
+  --warn: #f0b45a;
+  --crit: #ff8896;
+  --c-disability: #6db3ff;
+  --c-health: #ff8896;
+  --c-education: #c9a2ff;
+  --c-housing: #f0b45a;
+  --c-money: #4ad2a0;
+  --c-help: #7fd8e6;
+  --c-perks: #ff9f6e;
+  --c-jobs: #e58bd1;
+  --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f2f5fb; --surface: #ffffff; --surface-2: #e8eef9; --line: #cdd8ec;
+    --fg: #0f1b33; --muted: #4a5b7c; --accent: #0b5fc4; --accent-ink: #ffffff;
+    --good: #0d7a56; --warn: #8f5a00; --crit: #b3263a;
+    --c-disability: #0b5fc4; --c-health: #b3263a; --c-education: #6d3fb8;
+    --c-housing: #8f5a00; --c-money: #0d7a56; --c-help: #0a6f80;
+    --c-perks: #a34a12; --c-jobs: #a1227f;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f2f5fb; --surface: #ffffff; --surface-2: #e8eef9; --line: #cdd8ec;
+  --fg: #0f1b33; --muted: #4a5b7c; --accent: #0b5fc4; --accent-ink: #ffffff;
+  --good: #0d7a56; --warn: #8f5a00; --crit: #b3263a;
+  --c-disability: #0b5fc4; --c-health: #b3263a; --c-education: #6d3fb8;
+  --c-housing: #8f5a00; --c-money: #0d7a56; --c-help: #0a6f80;
+  --c-perks: #a34a12; --c-jobs: #a1227f;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.5;
+  padding-block: 8px 104px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-text-size-adjust: 100%;
+}
+main { max-width: 640px; margin: 0 auto; display: grid; gap: 18px; min-width: 0; }
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: .01em; line-height: 1.1; margin: 0; text-wrap: balance; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
+p { margin: 0; }
+a { color: var(--accent); }
+.sub { color: var(--muted); font-size: .95rem; }
+.eyebrow { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.top { display: grid; gap: 4px; padding-top: 10px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; min-width: 0; }
+
+.crisis { display: grid; gap: 4px; border-color: var(--crit); }
+.crisis strong { color: var(--crit); font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .02em; }
+.crisis .num { font-weight: 600; font-size: 1.05rem; }
+
+.progress-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.bar { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin-top: 10px; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s; }
+.steps { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 4px; }
+.step { display: flex; gap: 12px; align-items: flex-start; padding: 10px 4px; border-radius: 10px; cursor: pointer; }
+.step input { appearance: none; -webkit-appearance: none; flex: none; width: 26px; height: 26px; margin: 1px 0 0; border: 2px solid var(--line); border-radius: 8px; background: var(--surface-2); display: grid; place-content: center; cursor: pointer; }
+.step input:checked { background: var(--accent); border-color: var(--accent); }
+.step input:checked::after { content: ""; width: 7px; height: 13px; border: solid var(--accent-ink); border-width: 0 3px 3px 0; transform: rotate(45deg) translate(-1px, -1px); }
+.step .t { font-weight: 600; }
+.step .d { color: var(--muted); font-size: .9rem; }
+.step.done .t { color: var(--muted); text-decoration: line-through; }
+.step a.more { font-size: .85rem; }
+
+.row-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.row-scroll::-webkit-scrollbar { display: none; }
+
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 8px 14px; font-weight: 500; font-size: .92rem; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+.search { width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; font: inherit; font-size: 16px; color: var(--fg); }
+.search::placeholder { color: var(--muted); }
+
+.list { display: grid; gap: 10px; }
+.item { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; text-align: left; width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; cursor: pointer; text-decoration: none; color: inherit; min-width: 0; }
+.item:active { background: var(--surface-2); }
+.item .body { display: grid; gap: 6px; min-width: 0; }
+.item .title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; line-height: 1.15; }
+.item .desc { color: var(--muted); font-size: .92rem; }
+.meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: .82rem; color: var(--muted); }
+.tag { --tagc: var(--accent); color: var(--tagc); background: color-mix(in srgb, var(--tagc) 16%, transparent); border: 1px solid color-mix(in srgb, var(--tagc) 45%, transparent); border-radius: 8px; padding: 1px 8px; font-weight: 600; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.chev { color: var(--muted); font-size: 1.3rem; }
+.empty { color: var(--muted); text-align: center; padding: 28px 0; }
+
+.shortcuts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.shortcuts .item { grid-template-columns: 1fr; }
+
+.back { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: 8px 14px 8px 10px; cursor: pointer; font-weight: 500; justify-self: start; }
+.article { display: grid; gap: 14px; min-width: 0; }
+.article .prose { display: grid; gap: 12px; max-width: 65ch; }
+.prose ul, .prose ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 6px; }
+.prose h3 { margin-top: 6px; color: var(--accent); }
+.callout { border-left: 4px solid var(--warn); background: var(--surface); padding: 12px 14px; border-radius: 0 12px 12px 0; }
+.callout.good { border-left-color: var(--good); }
+.src { display: grid; gap: 6px; }
+.src a { overflow-wrap: anywhere; }
+
+.contact { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding: 14px 16px; }
+.contact .name { font-weight: 600; }
+.contact .hours { color: var(--muted); font-size: .85rem; grid-column: 1; }
+.contact .num { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; grid-row: 1 / span 2; grid-column: 2; text-align: right; color: var(--accent); text-decoration: none; white-space: nowrap; }
+.copy { border: 1px solid var(--line); background: var(--surface-2); border-radius: 8px; padding: 2px 10px; font-size: .8rem; cursor: pointer; justify-self: start; }
+
+.disclaimer { color: var(--muted); font-size: .82rem; }
+
+nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; justify-content: center; padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); background: linear-gradient(to top, var(--bg) 70%, transparent); }
+.tabs-inner { display: flex; width: 100%; max-width: 480px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 6px; gap: 4px; }
+.tab { flex: 1; display: grid; justify-items: center; gap: 2px; padding: 8px 4px; border-radius: 16px; text-decoration: none; color: var(--muted); font-size: .75rem; font-weight: 600; letter-spacing: .04em; }
+.tab svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tab[aria-current="page"] { color: var(--accent); background: var(--surface-2); }
+/* Keep every grid column at the screen width so scrolling chip rows and long words cannot widen the page. */
+main, .top, .list, .article, .prose, .src, .crisis { grid-template-columns: minmax(0, 1fr); }
+main > *, .article > *, .prose > * { min-width: 0; }
+.item { grid-template-columns: minmax(0, 1fr) auto; }
+.shortcuts .item { grid-template-columns: minmax(0, 1fr); }
+.contact { grid-template-columns: minmax(0, 1fr) auto; }
+body { overflow-wrap: break-word; overflow-x: clip; }
+.row-scroll, .chips { max-width: 100%; }
+@media (prefers-reduced-motion: reduce) { .bar > i { transition: none; } }
+</style>
+</head>
+<body>
+
+
+<main id="app" aria-live="polite"></main>
+
+<nav class="tabs" aria-label="Main">
+  <div class="tabs-inner">
+    <a class="tab" id="tab-start" href="#start">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Start</a>
+    <a class="tab" id="tab-library" href="#library">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M9 8h6M9 12h6"/></svg>Guides</a>
+    <a class="tab" id="tab-contacts" href="#contacts">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Contacts</a>
+  </div>
+</nav>
+
+<script>
+var CATS = [
+  { id: "all", label: "All" },
+  { id: "disability", label: "Claims" },
+  { id: "health", label: "Health & gear" },
+  { id: "perks", label: "Perks & travel" },
+  { id: "jobs", label: "Jobs & business" },
+  { id: "education", label: "Education" },
+  { id: "housing", label: "Home loans" },
+  { id: "money", label: "Pension & family" },
+  { id: "help", label: "Getting help" }
+];
+function catLabel(id) { for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i].label; return id; }
+
+var STEPS = [
+  { t: "Gather your service records", d: "Discharge papers (DD-214) and any service treatment records.", g: "evidence" },
+  { t: "Start your claim or file an intent to file", d: "Starting online locks in your start date for back pay.", g: "intent-to-file" },
+  { t: "Collect medical evidence", d: "Diagnoses, treatment records, and statements that link the condition to service.", g: "evidence" },
+  { t: "File the complete claim", d: "Online at VA.gov, by mail, in person, or with an accredited representative.", g: "how-to-file" },
+  { t: "Attend your VA exam if scheduled", d: "VA may ask you to report for a compensation exam.", g: "after-you-file" },
+  { t: "Track status and answer VA letters", d: "Check your status on VA.gov and respond fast to requests.", g: "after-you-file" }
+];
+
+var GUIDES = [
+  { id: "how-to-file", cat: "disability", title: "How to file a disability claim", desc: "The main steps from eligibility to decision, and the four ways to file.", min: 4,
+    src: [["VA.gov: How to file a VA disability claim", "https://www.va.gov/disability/how-to-file-claim/"]],
+    body: '<p>VA disability compensation is a monthly payment for conditions connected to your military service. Filing is a legal process, and the strength of your evidence matters.</p>' +
+    '<h3>Before you apply</h3><ul><li>Check that you are eligible for disability compensation.</li><li>Gather the evidence you will submit yourself. VA encourages sending all supporting documents with the claim, which helps it move faster.</li></ul>' +
+    '<h3>Four ways to file</h3><ol><li><strong>Online at VA.gov.</strong> VA recommends this. Your start date is set automatically when you begin the online form.</li><li><strong>By mail.</strong> Use VA Form 21-526EZ, Application for Disability Compensation and Related Compensation Benefits. Mail it to: Claims Intake Center, PO Box 4444, Janesville, WI 53547-4444.</li><li><strong>In person</strong> at a VA regional office.</li><li><strong>With an accredited representative</strong> such as a Veterans Service Organization (VSO) rep, claims agent, or attorney.</li></ol>' +
+    '<div class="callout good"><strong>Tip:</strong> If you plan to file on paper and need time to gather records, file an intent to file first. See that guide.</div>' +
+    '<h3>After you file</h3><p>VA reviews your claim, may schedule an exam, and sends a decision. If you disagree, you can appeal or request a review.</p>' },
+
+  { id: "intent-to-file", cat: "disability", title: "Intent to file: protect your start date", desc: "You get one year to finish a claim and keep your earliest effective date.", min: 3,
+    src: [["VA.gov: Your intent to file a VA claim", "https://www.va.gov/resources/your-intent-to-file-a-va-claim/"]],
+    body: '<p>An intent to file sets a potential start date, called the effective date, for any benefits you are awarded. If your claim is approved, VA may pay back to that date.</p>' +
+    '<ul><li>After VA receives your intent to file, you have <strong>1 year</strong> to complete and file your claim.</li><li><strong>Online:</strong> you do not need a separate intent to file. The date is set when you start filling out the form online. Finish it within one year.</li><li><strong>Paper:</strong> submit VA Form 21-0966 and mail it to the intake address in the filing guide.</li><li><strong>Phone:</strong> VA can document your intent when you call 800-827-1000.</li></ul>' +
+    '<div class="callout"><strong>Heads up:</strong> Starting an online application is what counts online. If you miss the one-year window, you can still file any time. The only thing that changes is the effective date, so you may lose some back pay.</div>' },
+
+  { id: "evidence", cat: "disability", title: "Evidence to gather for your claim", desc: "Records and forms that support a service-connected condition.", min: 3,
+    src: [["VA.gov: Evidence needed for your disability claim", "https://www.va.gov/disability/how-to-file-claim/"], ["VA.gov: Get your military service records", "https://www.va.gov/records/get-military-service-records/"], ["VA.gov: Upload supporting evidence", "https://www.va.gov/disability/upload-supporting-evidence/"]],
+    body: '<p>Claims are decided on evidence. The goal is to show you have a current condition and that it is connected to your service.</p>' +
+    '<ul><li><strong>Service records</strong> such as your DD-214 and service treatment records.</li><li><strong>Medical records</strong> from VA or private providers, including diagnoses and treatment.</li><li><strong>Private records:</strong> VA Form 21-4142, Authorization to Disclose Information to VA, lets VA request them for you. You can complete it while filing online.</li><li><strong>PTSD claims:</strong> VA Form 21-0781 is a statement in support of a claim for service connection for PTSD. You can also complete it online while filing.</li><li><strong>Unemployability:</strong> if you cannot work because of service-connected conditions, VA Form 21-8940 applies, along with 21-4192 (employment information).</li></ul>' +
+    '<p>After filing, you can still upload more evidence on VA.gov.</p>' },
+
+  { id: "after-you-file", cat: "disability", title: "After you file: exams, decisions, status", desc: "What happens next and how to keep your claim moving.", min: 3,
+    src: [["VA.gov: What happens after you file", "https://www.va.gov/disability/after-you-file-claim/"], ["VA.gov: Check claim or appeal status", "https://www.va.gov/claim-or-appeal-status/"]],
+    body: '<ul><li><strong>Confirmation.</strong> Online filers get an on-screen confirmation. Mail filers get a letter acknowledging receipt.</li><li><strong>Compensation exam.</strong> VA may ask you to report to an exam, often called a C&amp;P exam. Go, and bring what you can to describe your condition.</li><li><strong>Decision.</strong> VA assigns a rating based on severity and sends a decision letter.</li><li><strong>Status.</strong> Check progress any time on VA.gov under claim or appeal status.</li></ul>' +
+    '<div class="callout">Timelines vary. Processing has averaged several months in recent years, so check VA.gov for the current figure. Reply quickly to any VA request for more information.</div>' },
+
+  { id: "denied", cat: "disability", title: "If your claim is denied", desc: "A denial is not the end. You can appeal or request a review.", min: 2,
+    src: [["Oregon Dept. of Veterans’ Affairs: How to file a claim", "https://www.oregon.gov/odva/Benefits/Pages/How-to-File-a-Claim.aspx"], ["VA.gov: Claim types and when to file", "https://www.va.gov/disability/how-to-file-claim/"]],
+    body: '<p>If VA denies your claim or you believe the decision is inaccurate, you may appeal or request a review of the decision.</p>' +
+    '<ul><li>Read the decision letter carefully. It explains the reasons and your options.</li><li>You may be able to submit a supplemental claim with new evidence.</li><li>A free accredited representative can help you choose the right path and meet the deadlines.</li></ul>' +
+    '<p>Ask your representative or call 800-827-1000 to confirm which review option fits and how long you have.</p>' },
+
+  { id: "pact-act", cat: "disability", title: "PACT Act claims", desc: "Toxic-exposure claims have no general filing deadline.", min: 2,
+    src: [["VA.gov: Getting started with VA", "https://www.va.gov/resources/getting-started-with-va/"], ["State of Tennessee / VA intent-to-file outreach notice", "https://tn.gov/content/dam/tn/veteranservices/learning/pact-act-2022/va-press-release/ITF%20Outreach%20Campaign%20product%20May%202024.pdf"]],
+    body: '<p>The PACT Act expanded benefits for veterans exposed to certain toxic substances. VA states there is no general deadline to file a PACT Act claim and encourages filing any time.</p>' +
+    '<div class="callout good">To protect back pay, still file an intent to file or start your claim online, then finish it within one year.</div>' +
+    '<p>For the list of covered conditions and exposures, check VA.gov or ask an accredited representative.</p>' },
+
+  { id: "health-care", cat: "health", title: "Apply for VA health care", desc: "Enroll to get medical, mental health, dental and pharmacy care.", min: 3,
+    src: [["VA.gov: Health care", "https://www.va.gov/health-care/"], ["VA.gov: Find locations", "https://www.va.gov/find-locations"]],
+    body: '<p>VA health care covers preventive care, hospital and outpatient services, urgent and emergency care, mental health services, prescriptions, and more for eligible veterans. Dental care may also be available.</p>' +
+    '<ul><li>Eligibility for most VA benefits depends on service that ended under conditions other than dishonorable.</li><li>Apply at VA.gov/health-care, or apply directly at the VA medical facility you want to use.</li><li>Questions: VA health benefits hotline, 877-222-8387 (Mon to Fri, 8 a.m. to 8 p.m. ET).</li></ul>' +
+    '<div class="callout good">You do not need to be enrolled in VA benefits or health care to use the Veterans Crisis Line. Dial 988 then press 1.</div>' },
+
+  { id: "exercise-equipment", cat: "health", title: "Exercise equipment through the VA", desc: "Home gym gear, like a bike, can be provided when it is part of your treatment plan.", min: 4,
+    src: [["38 CFR 17.3230: Home exercise equipment", "https://www.law.cornell.edu/cfr/text/38/17.3230"]],
+    body: '<p>VA can provide home exercise equipment to eligible veterans, but only as part of medical treatment, not as a perk. A bike, rower, or other cardio gear can qualify if your care team decides it is needed for your rehabilitation.</p>' +
+    '<h3>What has to be true</h3><ul><li>VA determines the equipment is needed for your care.</li><li>It is a direct and active part of your medical treatment and rehabilitation. Comfort or convenience alone does not qualify.</li><li>It supports rehab goals that are documented in your medical record.</li><li>If you rent, the owner of your residence must agree before any installation.</li></ul>' +
+    '<h3>What to expect</h3><ul><li>Equipment goes to your primary residence, in most cases one item.</li><li>It generally becomes your property once you take possession, unless your care team decides it should be a loan.</li><li>VA decides on the type of equipment based on your clinical need. There is no guarantee of a specific model.</li></ul>' +
+    '<h3>How to ask</h3><ol><li>Talk to your VA primary care provider, physical therapist or rehab team about a specific rehab goal the equipment would support.</li><li>Ask them to document that goal and the clinical need in your record.</li><li>Ask them to submit the request through VA’s prosthetics process (see the prosthetics guide).</li></ol>' +
+    '<div class="callout"><strong>Heads up:</strong> This is a clinical decision. Bring specifics, such as the condition being treated and what exercise your plan calls for.</div>' },
+
+  { id: "prosthetics", cat: "health", title: "Prosthetics, mobility and sensory aids", desc: "Braces, wheelchairs, hearing aids, glasses, car adaptations and more.", min: 3,
+    src: [["VA Prosthetic & Sensory Aids Service (example local page)", "https://www.va.gov/mountain-home-health-care/programs/prosthetic-sensory-aids-service-psas/"]],
+    body: '<p>VA’s Prosthetic and Sensory Aids Service provides a wide range of items.</p>' +
+    '<ul><li>Durable medical equipment, walkers, wheelchairs and other mobility aids</li><li>Communication and assistive devices, home oxygen, surgical implants</li><li>Braces, orthotics and artificial limbs, plus repairs</li><li>Aids for blindness and visual impairment, hearing aids and eyeglasses</li><li>Clothing allowance, home improvements and structural alterations, car adaptive equipment, and veterinary coverage for service dogs</li></ul>' +
+    '<h3>Eligibility</h3><p>You generally need to be enrolled in VA health care and referred by a physical medicine and rehabilitation physician for the full range of services. Hearing aids and eyeglasses are limited to certain groups, such as former prisoners of war, Purple Heart recipients and veterans with service-connected disabilities.</p>' +
+    '<p>Start with your VA primary care provider, who can place the consult. Rules vary by item, so ask your facility’s prosthetics office.</p>' },
+
+  { id: "adaptive-sports", cat: "health", title: "Adaptive sports and cycling", desc: "Try hand cycles and recumbent trikes through your VA facility.", min: 2,
+    src: [["VA Washington DC: Adaptive cycles help disabled veterans stay active", "https://www.va.gov/washington-dc-health-care/stories/adaptive-cycles-help-disabled-veterans-stay-active/"]],
+    body: '<p>Some VA medical centers run adaptive sports programs staffed by recreation therapists. One example is an adaptive cycling clinic where veterans tested upright bikes, recumbent trikes and hand cycles before choosing.</p>' +
+    '<ul><li>A recreation therapist can help you find equipment that fits your abilities.</li><li>Veterans in the program had a range of disabilities, including amputation.</li><li>One participant said he was working with the therapist to get his own recumbent trike.</li></ul>' +
+    '<p>Ask your VA primary care provider about adaptive sports at your facility. Programs and equipment vary by location.</p>' },
+
+  { id: "tricare-life", cat: "health", title: "TRICARE For Life for military retirees", desc: "Retiree coverage that works alongside Medicare.", min: 3,
+    src: [["TRICARE: Retired service members and family members", "https://tricare.mil/Plans/Eligibility/MedicareEligible/Retiree_and_Family"]],
+    body: '<p>TRICARE For Life is for military retirees and their family members who are eligible for Medicare Part A. That includes medically retired members and retired National Guard and Reserve members age 60 and older, along with their families.</p>' +
+    '<ul><li>You need <strong>both Medicare Part A and Part B</strong>. You lose TRICARE coverage if you do not have Part B, drop it, or stop paying the premiums.</li><li>Sign up for Part B when you first become eligible to avoid a late-enrollment penalty.</li><li>With Parts A and B, you are covered automatically by TRICARE For Life and TRICARE’s pharmacy benefit.</li><li>Under 65? You can enroll in TRICARE Prime or the Uniformed Services Family Health Plan instead.</li></ul>' +
+    '<p>This is separate from VA health care. Some veterans use both.</p>' },
+
+  { id: "id-cards", cat: "perks", title: "Veteran ID cards and discounts", desc: "Pick the ID that proves your service and unlocks veteran discounts.", min: 3,
+    src: [["VA.gov: Get Veteran ID cards", "https://www.va.gov/records/get-veteran-id-cards/"]],
+    body: '<p>You only need one ID to show veteran status. Many stores, restaurants and businesses honor them for discounts.</p>' +
+    '<ul><li><strong>Veteran ID Card (VIC):</strong> free digital photo ID for honorable or general discharges. Apply online. You do not have to carry discharge papers.</li><li><strong>Veteran Health Identification Card (VHIC):</strong> for veterans enrolled in VA health care. Also used to check in at VA appointments.</li><li><strong>Veteran designation on a state driver’s license or ID:</strong> available in all 50 states and Puerto Rico. Most states want a copy of your DD-214.</li><li><strong>DoD ID card:</strong> for retired military and some Guard and Reserve members. Also gets you onto bases.</li></ul>' +
+    '<p>Discount policies are set by each business, so ask before you buy and show your ID.</p>' },
+
+  { id: "commissary", cat: "perks", title: "Commissary and exchange shopping", desc: "Which veterans and family members can shop on base.", min: 2,
+    src: [["VA.gov: Commissary and exchange privileges for Veterans", "https://www.va.gov/resources/commissary-and-exchange-privileges-for-veterans/"]],
+    body: '<p>VA lists these veterans and service members as eligible for commissary and exchange privileges in the U.S.:</p>' +
+    '<ul><li>Veterans with a service-connected disability rating and an honorable discharge</li><li>Military retirees and former prisoners of war</li><li>Members of the Reserves</li><li>Purple Heart and Medal of Honor recipients</li></ul>' +
+    '<p>Eligible family members include surviving spouses who have not remarried and primary family caregivers of an eligible veteran in VA’s caregiver program.</p>' +
+    '<ul><li>You do not need to apply. Show a VHIC or a VA letter, plus a passport or driver’s license.</li><li>Overseas privileges vary by country.</li><li>Base access rules vary, so check with the installation before you go.</li></ul>' },
+
+  { id: "national-parks", cat: "perks", title: "Free lifetime pass to national parks", desc: "Veterans and Gold Star families get free entry to federal recreation lands.", min: 2,
+    src: [["National Park Service: Military entrance passes", "https://www.nps.gov/subjects/military/entrance-passes.htm"]],
+    body: '<p>Veterans, including National Guard and Reserve veterans, and Gold Star families can get a free Military Lifetime Pass. Current service members and their dependents can get a Military Annual Pass.</p>' +
+    '<h3>Ways to get it</h3><ul><li><strong>In person</strong> at many national parks and federal recreation sites, free.</li><li><strong>Recreation.gov:</strong> free digital pass. A physical pass has a $7.50 shipping fee.</li><li><strong>USGS Store:</strong> mailed pass for a $10 processing fee.</li></ul>' +
+    '<h3>Bring one of these IDs (veterans)</h3><ul><li>DD Form 2, DD Form 2765 or Next Generation USID</li><li>Veteran Health Identification Card or the digital VA Veteran ID Card</li><li>State driver’s license or ID with a veteran designation</li></ul>' +
+    '<p>The pass covers entrance and standard day-use fees on lands managed by the NPS, BLM, Bureau of Reclamation, Fish and Wildlife Service, Forest Service and Army Corps of Engineers. It covers the holder plus the occupants of one private vehicle. It does not cover camping, tours or reservation fees.</p>' },
+
+  { id: "space-a", cat: "perks", title: "Space-A military flights", desc: "Space-available travel on military aircraft. Veteran eligibility is limited.", min: 2,
+    src: [["Army benefits: Space-Available Travel", "https://myarmybenefits.us.army.mil/Benefit-Library/Federal-Benefits/Space-Available-Travel-(Space-A-Travel)"]],
+    body: '<p>Space-A lets eligible passengers fly on military aircraft when seats are open. The Army benefits page lists retired members of the Regular Army, Army National Guard and Army Reserve as eligible categories.</p>' +
+    '<ul><li>Air Mobility Command travelers can sign up with its self-signup tool for Space-A and Space-R travel, live at AMC locations since March 26, 2026.</li></ul>' +
+    '<div class="callout">The source did not say whether other veterans qualify, such as those with a 100% disability rating. Check the official page or ask a passenger terminal before you plan a trip.</div>' },
+
+  { id: "vre", cat: "jobs", title: "Veteran Readiness and Employment (VR&E)", desc: "Job training, counseling and support if a service-connected disability affects work.", min: 3,
+    src: [["VA.gov: VR&E eligibility", "https://www.va.gov/careers-employment/vocational-rehabilitation/eligibility/"]],
+    body: '<p>VR&amp;E helps veterans with service-connected disabilities prepare for, find and keep suitable work, or live more independently.</p>' +
+    '<h3>Who qualifies</h3><ul><li>Veterans with a non-dishonorable discharge and a VA service-connected rating of at least 10%.</li><li>Discharged on or after Jan. 1, 2013: no time limit. Discharged before that: eligibility generally lasts 12 years, with possible extensions.</li><li>Some active-duty members qualify before discharge, such as with a 20% or higher pre-discharge rating.</li></ul>' +
+    '<h3>What it can include</h3><ul><li>Evaluation of your skills and interests, counseling and a rehab plan</li><li>Job training, resume help and work-readiness support</li><li>Help finding and keeping a job, including employer incentives</li><li>On-the-job training, apprenticeships, college or other training</li><li>Independent living services</li></ul>' },
+
+  { id: "federal-jobs", cat: "jobs", title: "Veterans’ preference for federal jobs", desc: "5 or 10 points added to your score when you apply for many federal positions.", min: 3,
+    src: [["OPM: Veterans’ preference", "https://www.opm.gov/fedshirevets/veteran-job-seekers/vets"]],
+    body: '<p>Veterans’ preference gives eligible veterans an advantage when applying for many federal jobs. It does not guarantee a job, and it does not apply to internal promotions or transfers.</p>' +
+    '<ul><li><strong>Eligibility:</strong> honorable or general discharge, plus qualifying service dates, campaign badge, Purple Heart or service-connected disability. Retirees generally do not qualify unless disabled or retired below the rank of major.</li><li><strong>5 points:</strong> for qualifying service periods or campaigns.</li><li><strong>10 points:</strong> for a service-connected disability or Purple Heart.</li></ul>' +
+    '<h3>Documents</h3><ul><li>DD-214, member 4 copy preferred</li><li>SF-15 if you claim 10-point preference</li><li>VA disability letter showing your rating</li></ul>' },
+
+  { id: "business", cat: "jobs", title: "Starting a business as a veteran", desc: "SBA resources for veteran entrepreneurs.", min: 2,
+    src: [["SBA: Veteran-owned businesses", "https://www.sba.gov/business-guide/grow/veteran-owned-businesses-programs"]],
+    body: '<p>The U.S. Small Business Administration (SBA) has programs and resources for veteran entrepreneurs, including entrepreneurship training such as Boots to Business.</p>' +
+    '<p>Start at the SBA veteran business page linked below to see current programs, loan options and local help. Details change, so confirm current eligibility there.</p>' },
+
+  { id: "military-onesource", cat: "help", title: "Military OneSource after you separate", desc: "Free, confidential non-medical counseling for veterans within a year of separation.", min: 2,
+    src: [["Military OneSource: Help for veterans", "https://militaryonesource.mil/benefits/help-for-veterans"]],
+    body: '<p>Military OneSource offers confidential, non-medical counseling to veterans within 365 days of separation. Call 800-342-9647.</p>' +
+    '<p>For readjustment counseling, VA’s Vet Center program serves veterans who served in any combat zone, and their families, at centers across the U.S.</p>' },
+
+  { id: "education", cat: "education", title: "Education and GI Bill benefits", desc: "Payments while you are in an approved school or training program.", min: 2,
+    src: [["VA.gov: Education benefits", "https://www.va.gov/education/"]],
+    body: '<p>VA pays education benefits to eligible veterans, reservists and active duty service members while they are in an approved education or training program. Benefits can cover tuition, books and fees depending on the program.</p>' +
+    '<ul><li>Start at VA.gov/education to see which program fits and to apply.</li><li>GI Bill hotline: 888-442-4551 (Mon to Fri, 8 a.m. to 5 p.m. ET).</li></ul>' },
+
+  { id: "home-loans", cat: "housing", title: "VA home loans", desc: "A VA-guaranteed loan, often with no down payment.", min: 3,
+    src: [["VA Home Loans", "https://www.benefits.va.gov/homeloans/"]],
+    body: '<p>The VA does not lend the money. It guarantees part of a loan from a private lender, which helps you get more favorable terms. Generally you do not have to make a down payment or buy mortgage insurance on a purchase loan.</p>' +
+    '<ul><li>Eligible: veterans, servicemembers, reservists, National Guard members, and some surviving spouses.</li><li><strong>First step:</strong> request a Certificate of Eligibility (COE), or fill out VA Form 26-1880.</li><li>Other products include cash-out refinance and interest rate reduction refinance loans. Adaptive housing grants can help veterans with certain service-connected disabilities.</li><li>You can reuse the benefit multiple times.</li></ul>' },
+
+  { id: "pension", cat: "money", title: "VA pension for wartime veterans", desc: "A monthly benefit for wartime veterans with limited income.", min: 2,
+    src: [["VA.gov: Getting started with VA", "https://www.va.gov/resources/getting-started-with-va/"]],
+    body: '<p>Pension is different from disability compensation. You may qualify for a monthly pension if you are a wartime veteran with limited income, and you are permanently and totally disabled or at least 65 years old.</p>' +
+    '<p>Call the VA benefits hotline at 800-827-1000 or work with an accredited representative to confirm your eligibility and start an application.</p>' },
+
+  { id: "family", cat: "money", title: "Benefits for family, caregivers and survivors", desc: "Support for spouses, dependents, survivors and family caregivers.", min: 2,
+    src: [["VA.gov: Getting started with VA", "https://www.va.gov/resources/getting-started-with-va/"]],
+    body: '<p>VA offers benefits and health care connections for spouses, dependents, survivors and family caregivers.</p>' +
+    '<ul><li>Survivors can apply for Dependency and Indemnity Compensation (DIC), death pension and accrued benefits using VA Form 21-534EZ.</li><li>Caregiver Support Line: 855-260-3274.</li><li>Burial benefits include burial in a VA national cemetery and reimbursement of some burial expenses.</li></ul>' },
+
+  { id: "discharge", cat: "help", title: "Discharge status and eligibility", desc: "Most benefits need a discharge other than dishonorable. Other statuses may still qualify.", min: 3,
+    src: [["Swords to Plowshares: VA service-connected disability compensation", "https://www.swords-to-plowshares.org/guides/va-service-connected-disability-compensation"], ["Benefits.gov: VA benefits", "https://Www.Benefits.gov/news/article/463"]],
+    body: '<p>Eligibility for most VA benefits is based on discharge from active service under other than dishonorable conditions. Honorable and general discharges qualify for most benefits.</p>' +
+    '<ul><li>Many veterans with less than honorable discharges can still receive disability compensation, so do not rule yourself out.</li><li>Dishonorable and bad conduct discharges issued by general courts-martial may bar benefits.</li><li>VA recently finalized a rule that expands access to care and benefits for some former service members discharged under other than honorable conditions.</li><li>VA mental health support is available regardless of discharge status.</li></ul>' +
+    '<p>If your status is unclear, talk to an accredited representative before you decide not to apply.</p>' },
+
+  { id: "free-help", cat: "help", title: "Get free help and avoid claim scams", desc: "Accredited reps help for free. Verify anyone before sharing your information.", min: 3,
+    src: [["VA news release: finish claims within one year", "https://myairforcebenefits.us.af.mil/Finish-your-benefits-claims-within-one-year-to-be-eligible-for-the-most-backdated-benefits"], ["VA.gov: Getting started with VA", "https://www.va.gov/resources/getting-started-with-va/"]],
+    body: '<p>You can file on your own, or get help from a VA-accredited Veterans Service Organization (VSO) representative, claims agent or attorney. Accredited representatives are available to help at no charge.</p>' +
+    '<div class="callout"><strong>Protect yourself.</strong> You have the right to verify anyone’s credentials before filing a claim or giving personal information. Be wary of anyone who promises a rating or charges you upfront to file a first claim.</div>' +
+    '<ul><li>Look up accreditation on VA.gov before you sign anything.</li><li>Never share your Social Security number, bank details or VA.gov login with someone you have not verified.</li></ul>' }
+];
+
+var CONTACTS = [
+  { n: "VA benefits hotline", h: "Mon to Fri, 8 a.m. to 9 p.m. ET. Claims, disability, pension, home loans.", p: "800-827-1000" },
+  { n: "VA health benefits hotline", h: "Mon to Fri, 8 a.m. to 8 p.m. ET.", p: "877-222-8387" },
+  { n: "GI Bill hotline", h: "Mon to Fri, 8 a.m. to 5 p.m. ET.", p: "888-442-4551" },
+  { n: "MyVA411 main line", h: "24/7. When you do not know who to call.", p: "800-698-2411" },
+  { n: "Caregiver Support Line", h: "Resources and support for caregivers of veterans.", p: "855-260-3274" },
+  { n: "Women Veterans hotline", h: "Mon to Fri, 8 a.m. to 10 p.m. ET; Sat, 8 a.m. to 6:30 p.m. ET.", p: "855-829-6636" },
+  { n: "Homeless Veterans call center", h: "National call center for homeless veterans.", p: "877-424-3838" },
+  { n: "Military OneSource", h: "Free, confidential non-medical counseling within 365 days of separation.", p: "800-342-9647" }
+];
+
+var app = document.getElementById("app");
+var state = { cat: "all", q: "" };
+
+function getChecks() { try { return JSON.parse(localStorage.getItem("vacg-checks") || "[]"); } catch (e) { return []; } }
+function setChecks(a) { try { localStorage.setItem("vacg-checks", JSON.stringify(a)); } catch (e) {} }
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function plain(html) { return html.replace(/<[^>]+>/g, " "); }
+function findGuide(id) { for (var i = 0; i < GUIDES.length; i++) if (GUIDES[i].id === id) return GUIDES[i]; return null; }
+function tagHtml(cat) { return '<span class="tag" style="--tagc: var(--c-' + cat + ')">' + esc(catLabel(cat)) + '</span>'; }
+function itemHtml(g) {
+  return '<a class="item" href="#g-' + g.id + '"><div class="body"><div class="title">' + esc(g.title) + '</div><div class="desc">' + esc(g.desc) + '</div><div class="meta">' + tagHtml(g.cat) + '<span>' + g.min + ' min read</span></div></div><span class="chev" aria-hidden="true">›</span></a>';
+}
+function crisisHtml() {
+  return '<section class="card crisis" aria-label="Veterans Crisis Line"><strong>In crisis or worried about a veteran?</strong><span class="num">Dial 988, then press 1. Or text 838255.</span><span class="sub">Free, confidential, 24/7. You do not need to be enrolled in VA benefits or health care.</span></section>';
+}
+
+function renderStart() {
+  var checks = getChecks();
+  var done = 0, i;
+  for (i = 0; i < STEPS.length; i++) if (checks.indexOf(i) > -1) done++;
+  var pct = Math.round(done / STEPS.length * 100);
+  var steps = "";
+  for (i = 0; i < STEPS.length; i++) {
+    var on = checks.indexOf(i) > -1;
+    steps += '<li><label class="step' + (on ? ' done' : '') + '"><input type="checkbox" data-i="' + i + '"' + (on ? ' checked' : '') + '><span><span class="t">' + esc(STEPS[i].t) + '</span><br><span class="d">' + esc(STEPS[i].d) + '</span> <a class="more" href="#g-' + STEPS[i].g + '">How</a></span></label></li>';
+  }
+  var quick = ["exercise-equipment", "how-to-file", "national-parks", "id-cards"].map(function (id) {
+    var g = findGuide(id);
+    return '<a class="item" href="#g-' + g.id + '"><div class="body"><div class="title">' + esc(g.title) + '</div>' + '<div class="meta">' + tagHtml(g.cat) + '<span>' + g.min + ' min</span></div></div></a>';
+  }).join("");
+  app.innerHTML =
+    '<header class="top"><div class="eyebrow">Unofficial guide</div><h1>Your earned benefits</h1><p class="sub">VA, military and federal benefits in plain steps. Claims, health gear, perks, jobs and more.</p></header>' +
+    '<section><h2 style="margin-bottom:10px">Browse by topic</h2><div class="row-scroll" id="topics">' + CATS.slice(1).map(function (c) { return '<button class="chip" type="button" data-topic="' + c.id + '">' + esc(c.label) + '</button>'; }).join("") + '</div></section>' +
+    '<section class="card"><div class="progress-head"><h2>Your claim checklist</h2><span class="sub">' + done + ' of ' + STEPS.length + ' done</span></div><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div><ol class="steps">' + steps + '</ol><p class="disclaimer" style="margin-top:8px">Checked items are saved on this device only.</p></section>' +
+    '<section><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><h2>Start here</h2><a href="#library">All guides</a></div><div class="shortcuts">' + quick + '</div></section>' +
+    crisisHtml() +
+    '<section class="card"><h3>File online</h3><p class="sub" style="margin:6px 0 10px">The fastest way to file is on VA.gov. Starting online also sets your start date.</p><a href="https://www.va.gov/disability/how-to-file-claim/" target="_blank" rel="noopener">Open VA.gov: how to file</a></section>' +
+    '<p class="disclaimer">This app is not affiliated with the Department of Veterans Affairs or the Department of Defense. It summarizes public government information. Rules change, so confirm details with the source linked in each guide or with an accredited representative.</p>';
+  document.getElementById("topics").addEventListener("click", function (e) {
+    var b = e.target.closest(".chip"); if (!b) return;
+    state.cat = b.getAttribute("data-topic"); state.q = ""; location.hash = "#library";
+  });
+  var boxes = app.querySelectorAll(".step input");
+  for (i = 0; i < boxes.length; i++) boxes[i].addEventListener("change", function (e) {
+    var idx = Number(e.target.getAttribute("data-i"));
+    var c = getChecks();
+    var at = c.indexOf(idx);
+    if (e.target.checked && at < 0) c.push(idx);
+    if (!e.target.checked && at > -1) c.splice(at, 1);
+    setChecks(c);
+    renderStart();
+  });
+}
+
+function listHtml() {
+  var q = state.q.toLowerCase().trim();
+  var out = GUIDES.filter(function (g) {
+    if (state.cat !== "all" && g.cat !== state.cat) return false;
+    if (!q) return true;
+    return (g.title + " " + g.desc + " " + plain(g.body)).toLowerCase().indexOf(q) > -1;
+  });
+  if (!out.length) return '<p class="empty">No guides match. Try a different word or category.</p>';
+  return out.map(itemHtml).join("");
+}
+
+function renderLibrary() {
+  var chips = CATS.map(function (c) { return '<button class="chip" data-cat="' + c.id + '" aria-pressed="' + (state.cat === c.id) + '">' + esc(c.label) + '</button>'; }).join("");
+  app.innerHTML =
+    '<header class="top"><h1>Guides</h1><p class="sub">How to claim and use what you have earned</p></header>' +
+    '<input class="search" id="q" type="search" placeholder="Search guides" aria-label="Search guides" value="' + esc(state.q) + '">' +
+    '<div class="chips" id="chips">' + chips + '</div><div class="list" id="list">' + listHtml() + '</div>';
+  var q = document.getElementById("q");
+  q.addEventListener("input", function () { state.q = q.value; document.getElementById("list").innerHTML = listHtml(); });
+  document.getElementById("chips").addEventListener("click", function (e) {
+    var b = e.target.closest(".chip"); if (!b) return;
+    state.cat = b.getAttribute("data-cat");
+    var all = document.querySelectorAll(".chip");
+    for (var i = 0; i < all.length; i++) all[i].setAttribute("aria-pressed", String(all[i] === b));
+    document.getElementById("list").innerHTML = listHtml();
+  });
+}
+
+function renderGuide(g) {
+  var src = g.src.map(function (s) { return '<a href="' + s[1] + '" target="_blank" rel="noopener">' + esc(s[0]) + '</a>'; }).join("");
+  var rel = GUIDES.filter(function (x) { return x.cat === g.cat && x.id !== g.id; }).slice(0, 2).map(itemHtml).join("");
+  app.innerHTML =
+    '<button class="back" id="back" type="button"><span aria-hidden="true">‹</span> Back</button>' +
+    '<article class="article"><div class="meta">' + tagHtml(g.cat) + '<span>' + g.min + ' min read</span></div><h1>' + esc(g.title) + '</h1><div class="prose">' + g.body + '</div>' +
+    '<section class="card src"><div class="eyebrow">Sources</div>' + src + '</section>' +
+    (rel ? '<section><h2 style="margin-bottom:10px">Related</h2><div class="list">' + rel + '</div></section>' : '') +
+    '<p class="disclaimer">Unofficial summary of public information. Confirm details on VA.gov.</p></article>';
+  document.getElementById("back").addEventListener("click", function () {
+    if (history.length > 1) history.back(); else location.hash = "#library";
+  });
+}
+
+function copyNum(btn, text) {
+  var done = function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1400); };
+  try { navigator.clipboard.writeText(text).then(done, function () { btn.textContent = text; }); } catch (e) { btn.textContent = text; }
+}
+
+function renderContacts() {
+  var rows = CONTACTS.map(function (c) {
+    return '<div class="card contact"><div class="name">' + esc(c.n) + '</div><a class="num" href="tel:' + c.p.replace(/-/g, "") + '">' + c.p + '</a><div class="hours">' + esc(c.h) + '</div><button class="copy" type="button" data-p="' + c.p + '">Copy</button></div>';
+  }).join("");
+  app.innerHTML =
+    '<header class="top"><h1>Contacts</h1><p class="sub">Numbers are shown in full. Tapping one may open your phone app.</p></header>' + crisisHtml() +
+    '<div class="list">' + rows + '</div>' +
+    '<section class="card"><h3>Find an office</h3><p class="sub" style="margin:6px 0 10px">Look up the nearest VA regional office, medical center or cemetery.</p><a href="https://www.va.gov/find-locations" target="_blank" rel="noopener">VA.gov: Find locations</a></section>' +
+    '<p class="disclaimer">Hours and numbers can change. Check VA.gov for the latest.</p>';
+  var cb = app.querySelectorAll(".copy");
+  for (var i = 0; i < cb.length; i++) cb[i].addEventListener("click", function (e) { copyNum(e.currentTarget, e.currentTarget.getAttribute("data-p")); });
+}
+
+function route() {
+  var h = (location.hash || "#start").slice(1);
+  var tab = "start";
+  if (h.indexOf("g-") === 0) {
+    var g = findGuide(h.slice(2));
+    if (g) { tab = "library"; renderGuide(g); }
+    else { renderLibrary(); tab = "library"; }
+  } else if (h === "library") { tab = "library"; renderLibrary(); }
+  else if (h === "contacts") { tab = "contacts"; renderContacts(); }
+  else { renderStart(); }
+  ["start", "library", "contacts"].forEach(function (t) {
+    var el = document.getElementById("tab-" + t);
+    if (t === tab) el.setAttribute("aria-current", "page"); else el.removeAttribute("aria-current");
+  });
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+route();
+</script>
+
+</body>
+</html>
